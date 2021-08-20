@@ -1,0 +1,174 @@
+/*
+   * Erick Giffoni (170141161)
+   * Universidade de Brasilia - UnB
+   * PSPD 2021/1
+   * 08/2021
+   * Eleicao U.R.S.A.L
+*/
+
+/* .Voto valido         = numero inteiro positivo
+   .Voto invalido/nulo  =   ||   inteiro negativo
+*/
+
+/* .Presidente = 2 digitos & vitoria = 51% dos votos
+   .Senador    = 3   ||    & cada eleitor escolhe 2
+   .Dep.Fed    = 4   ||
+   .Dep.Est    = 5   ||
+
+   .Vitoria = maioria simples (exceto o presidente) dos votos validos
+
+   .Partido = identificado pelos 2 primeiros dígitos do codigo de um candidato.
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(int argc, char *argv[]){
+
+   int s, f, e;   // qtd senadores, dep.fed, dep.est para a eleicao
+   scanf(" %d %d %d", &s, &f, &e);
+
+   int *presidente   = (int *) calloc(0b1100100, sizeof(int));             // 0-99
+   int *senador      = (int *) calloc(0b1111101000, sizeof(int));          // 0-999
+   int *depFed       = (int *) calloc(0b10011100010000, sizeof(int));      // 0-9999
+   int *depEst       = (int *) calloc(0b11000011010100000, sizeof(int));   // 0-99999
+
+   int voto;
+   int qtd_votos_presidente = 0;
+   int qtd_invalidos        = 0;
+   int qtd_validos          = 0;
+   while(scanf(" %d", &voto) != EOF){
+      // printf("voto lido %d\n", voto);
+      // voto valido ?
+      if(voto < 0){
+         qtd_invalidos += 1;
+      }
+      else{
+         qtd_validos += 1;
+
+         // para quem e o voto ? verificar qtd de digitos do voto
+         if((voto / 10000) > 0){
+            // voto depEst
+            depEst[voto] += 1;
+         } // end if voto depEst
+         else if((voto / 1000) > 0){
+            // voto depFed
+            depFed[voto] += 1;
+         } // end else if voto depFed
+         else if((voto / 100) > 0){
+            // voto senador
+            senador[voto] += 1;
+         } // end else if voto senador
+         else {
+            // voto presidente
+            presidente[voto] += 1;
+            qtd_votos_presidente += 1;
+         } // end else voto presidente
+
+      } // end else voto valido
+   } // end while
+
+   printf("%d %d\n", qtd_validos, qtd_invalidos);
+
+   // logica para ver quem ganhou, se houve empate etc
+
+   int pos_eleito = 0;
+   char segundo_turno = 0b00000000; // boolean falso
+   for(int i=1; i<100; i++){
+      // printf("i=%d, p[i]=%d, pos_eleito=%d, p[pos_eleito]=%d\n", i, presidente[i], pos_eleito, presidente[pos_eleito]);
+      if(presidente[i] > presidente[pos_eleito]){
+         pos_eleito = i;
+         segundo_turno = 0b00000000;
+      }
+      else if(presidente[i] == presidente[pos_eleito]){
+         segundo_turno = 0b00000001;   // true
+      }
+   } // end for elege presidente
+
+   if(segundo_turno || (presidente[pos_eleito] <= (qtd_votos_presidente/2))){
+      printf("Segundo turno\n");
+   }
+   else{
+      printf("%d\n", pos_eleito);
+   }
+
+   // eleger senador
+   while(s){
+      pos_eleito = 0;
+      segundo_turno = 0b00000000; // empate = false
+      for(int i=1; i<1000; i++){
+         if(senador[i] > senador[pos_eleito]){
+            pos_eleito = i;
+            segundo_turno = 0b0000000;
+         }
+         else if(senador[i] == senador[pos_eleito]){
+            i > pos_eleito ? pos_eleito = i : pos_eleito;
+            segundo_turno = 0b00000001;
+         }
+      }
+
+      printf("%d", pos_eleito);
+      s--;
+
+      if(s){
+         printf(" ");
+      }
+
+      senador[pos_eleito] = 0;
+   }
+   printf("\n");
+
+   // eleger dep.Fed
+   while(f){
+      pos_eleito = 0;
+      segundo_turno = 0b00000000; // empate = false
+      for(int i=1; i<10000; i++){
+         if(depFed[i] > depFed[pos_eleito]){
+            pos_eleito = i;
+            segundo_turno = 0b0000000;
+         }
+         else if(depFed[i] == depFed[pos_eleito]){
+            i > pos_eleito ? pos_eleito = i : pos_eleito;
+            segundo_turno = 0b00000001;
+         }
+      }
+
+      printf("%d", pos_eleito);
+      f--;
+
+      if(f){
+         printf(" ");   // tem mais 1 candidato para elegermos
+      }
+
+      depFed[pos_eleito] = 0;
+   }
+   printf("\n");
+
+   // eleger dep.Est
+   while(e){
+      pos_eleito = 0;
+      segundo_turno = 0b00000000; // empate = false
+      for(int i=1; i<100000; i++){
+         if(depEst[i] > depEst[pos_eleito]){
+            pos_eleito = i;
+            segundo_turno = 0b0000000;
+         }
+         else if(depEst[i] == depEst[pos_eleito]){
+            i > pos_eleito ? pos_eleito = i : pos_eleito;
+            segundo_turno = 0b00000001;
+         }
+      }
+
+      printf("%d", pos_eleito);
+      e--;
+
+      if(e){
+         printf(" ");   // tem mais 1 candidato para elegermos
+      }
+
+      depEst[pos_eleito] = 0;
+   }
+   printf("\n");
+
+   return 0;
+}
