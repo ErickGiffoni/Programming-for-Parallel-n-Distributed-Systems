@@ -1,0 +1,11 @@
+{
+   "C_Cpp.errorSquiggles": "Disabled",
+   "files.associations": {
+      "system_error": "c"
+   },
+   "cSpell.ignoreWords": [
+      "flag",
+      "op",
+      "oprop"
+   ]
+}
