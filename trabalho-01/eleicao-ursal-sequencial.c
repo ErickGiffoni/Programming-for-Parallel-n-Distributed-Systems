@@ -23,6 +23,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+void eleger_politico(int qtd_p, int *politico, int iteracoes);
+
 int main(int argc, char *argv[]){
 
    int s, f, e;   // qtd senadores, dep.fed, dep.est para a eleicao
@@ -171,4 +173,36 @@ int main(int argc, char *argv[]){
    printf("\n");
 
    return 0;
-}
+} // end main
+
+void eleger_politico(int qtd_p, int *politico, int iteracoes){
+   int pos_eleito;
+   char segundo_turno; // boolean
+   
+   while(qtd_p){
+      pos_eleito = 0;
+      segundo_turno = 0b00000000; // empate = false
+      for(int i=1; i<iteracoes; i++){
+         if(politico[i] > politico[pos_eleito]){
+            pos_eleito = i;
+            segundo_turno = 0b0000000;
+         }
+         else if(politico[i] == politico[pos_eleito]){
+            i > pos_eleito ? pos_eleito = i : pos_eleito;
+            segundo_turno = 0b00000001;
+         }
+      }
+
+      printf("%d", pos_eleito);
+      qtd_p--;
+
+      if(qtd_p){
+         printf(" ");   // tem mais 1 candidato para elegermos
+      }
+
+      politico[pos_eleito] = 0;
+   }
+   printf("\n");
+
+   return;
+} // end eleger_politico
