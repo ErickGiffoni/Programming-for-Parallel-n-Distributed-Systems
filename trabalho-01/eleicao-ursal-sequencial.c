@@ -95,82 +95,13 @@ int main(int argc, char *argv[]){
    }
 
    // eleger senador
-   while(s){
-      pos_eleito = 0;
-      segundo_turno = 0b00000000; // empate = false
-      for(int i=1; i<1000; i++){
-         if(senador[i] > senador[pos_eleito]){
-            pos_eleito = i;
-            segundo_turno = 0b0000000;
-         }
-         else if(senador[i] == senador[pos_eleito]){
-            i > pos_eleito ? pos_eleito = i : pos_eleito;
-            segundo_turno = 0b00000001;
-         }
-      }
-
-      printf("%d", pos_eleito);
-      s--;
-
-      if(s){
-         printf(" ");
-      }
-
-      senador[pos_eleito] = 0;
-   }
-   printf("\n");
+   eleger_politico(s, senador, 1000);
 
    // eleger dep.Fed
-   while(f){
-      pos_eleito = 0;
-      segundo_turno = 0b00000000; // empate = false
-      for(int i=1; i<10000; i++){
-         if(depFed[i] > depFed[pos_eleito]){
-            pos_eleito = i;
-            segundo_turno = 0b0000000;
-         }
-         else if(depFed[i] == depFed[pos_eleito]){
-            i > pos_eleito ? pos_eleito = i : pos_eleito;
-            segundo_turno = 0b00000001;
-         }
-      }
-
-      printf("%d", pos_eleito);
-      f--;
-
-      if(f){
-         printf(" ");   // tem mais 1 candidato para elegermos
-      }
-
-      depFed[pos_eleito] = 0;
-   }
-   printf("\n");
+   eleger_politico(f, depFed, 10000);
 
    // eleger dep.Est
-   while(e){
-      pos_eleito = 0;
-      segundo_turno = 0b00000000; // empate = false
-      for(int i=1; i<100000; i++){
-         if(depEst[i] > depEst[pos_eleito]){
-            pos_eleito = i;
-            segundo_turno = 0b0000000;
-         }
-         else if(depEst[i] == depEst[pos_eleito]){
-            i > pos_eleito ? pos_eleito = i : pos_eleito;
-            segundo_turno = 0b00000001;
-         }
-      }
-
-      printf("%d", pos_eleito);
-      e--;
-
-      if(e){
-         printf(" ");   // tem mais 1 candidato para elegermos
-      }
-
-      depEst[pos_eleito] = 0;
-   }
-   printf("\n");
+   eleger_politico(e, depEst, 100000);
 
    return 0;
 } // end main
