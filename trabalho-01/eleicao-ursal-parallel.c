@@ -20,9 +20,13 @@
    .Partido = identificado pelos 2 primeiros dígitos do codigo de um candidato.
 */
 
+/* COMPILE WITH gcc-10 -fopenmp */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <omp.h>
+
+void eleger_politico(int qtd_p, int *politico, int iteracoes);
 
 int main(int argc, char *argv[]){
 
@@ -102,90 +106,53 @@ int main(int argc, char *argv[]){
       // eleger senador
       #pragma omp section
       {
-         while(s){
-            pos_eleito = 0;
-            segundo_turno = 0b00000000; // empate = false
-            for(int i=1; i<1000; i++){
-               if(senador[i] > senador[pos_eleito]){
-                  pos_eleito = i;
-                  segundo_turno = 0b0000000;
-               }
-               else if(senador[i] == senador[pos_eleito]){
-                  i > pos_eleito ? pos_eleito = i : pos_eleito;
-                  segundo_turno = 0b00000001;
-               }
-            }
-
-            printf("%d", pos_eleito);
-            s--;
-
-            if(s){
-               printf(" ");
-            }
-
-            senador[pos_eleito] = 0;
-         }
-         printf("\n");
+         eleger_politico(s, senador, 1000);
       } // end parallel section senador
 
       // eleger dep.Fed
       #pragma omp section
       {
-         while(f){
-            pos_eleito = 0;
-            segundo_turno = 0b00000000; // empate = false
-            for(int i=1; i<10000; i++){
-               if(depFed[i] > depFed[pos_eleito]){
-                  pos_eleito = i;
-                  segundo_turno = 0b0000000;
-               }
-               else if(depFed[i] == depFed[pos_eleito]){
-                  i > pos_eleito ? pos_eleito = i : pos_eleito;
-                  segundo_turno = 0b00000001;
-               }
-            }
-
-            printf("%d", pos_eleito);
-            f--;
-
-            if(f){
-               printf(" ");   // tem mais 1 candidato para elegermos
-            }
-
-            depFed[pos_eleito] = 0;
-         }
-         printf("\n");
+         eleger_politico(f, depFed, 10000);
       } // end parallel section dep.Fed
 
       // eleger dep.Est
       #pragma omp section
       {   
-         while(e){
-            pos_eleito = 0;
-            segundo_turno = 0b00000000; // empate = false
-            for(int i=1; i<100000; i++){
-               if(depEst[i] > depEst[pos_eleito]){
-                  pos_eleito = i;
-                  segundo_turno = 0b0000000;
-               }
-               else if(depEst[i] == depEst[pos_eleito]){
-                  i > pos_eleito ? pos_eleito = i : pos_eleito;
-                  segundo_turno = 0b00000001;
-               }
-            }
-
-            printf("%d", pos_eleito);
-            e--;
-
-            if(e){
-               printf(" ");   // tem mais 1 candidato para elegermos
-            }
-
-            depEst[pos_eleito] = 0;
-         }
-         printf("\n");
-      } // end parallel sectiom dep.Est
+         eleger_politico(e, depEst, 100000);
+      } // end parallel section dep.Est
    } // end omp parallel sections
 
    return 0;
-}
+} // end main
+
+void eleger_politico(int qtd_p, int *politico, int iteracoes){
+   int pos_eleito;
+   char segundo_turno; // boolean
+   
+   while(qtd_p){
+      pos_eleito = 0;
+      segundo_turno = 0b00000000; // empate = false
+      for(int i=1; i<iteracoes; i++){
+         if(politico[i] > politico[pos_eleito]){
+            pos_eleito = i;
+            segundo_turno = 0b0000000;
+         }
+         else if(politico[i] == politico[pos_eleito]){
+            i > pos_eleito ? pos_eleito = i : pos_eleito;
+            segundo_turno = 0b00000001;
+         }
+      }
+
+      printf("%d", pos_eleito);
+      qtd_p--;
+
+      if(qtd_p){
+         printf(" ");   // tem mais 1 candidato para elegermos
+      }
+
+      politico[pos_eleito] = 0;
+   }
+   printf("\n");
+
+   return;
+} // end eleger_politico
