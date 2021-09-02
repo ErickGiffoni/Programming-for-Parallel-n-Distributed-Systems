@@ -195,11 +195,79 @@ roteamento *black ou green* irão para Q2 . Todas as outras mensagens serão des
 
 ### Topics
 
-TO-DO
+O quinto experimento consiste no direcionamento de mensagens para filas específicas, com base na sua <br>
+categoria (gravidade), igual no anterior, porém com uma diferença fundamental, que é, também com base <br>
+na fonte que emitiu o *log*. <br>
+
+
+**Visão geral:**<br>
+
+Essa nova diferença permite um espectro muito mais amplo na captação dos *logs*. Conforme a imagem <br>
+abaixo, podemos entender melhor um pouco desse funcionamento. Inicialmente podemos perceber que existe <br>
+um padrão na chave de ligação, que é definido como sendo 3 palavras para esse problema. Na imagem <br>
+podemos perceber o uso do asterisco e da hashtag. Respectivamente, elas denotam que: pode substituir <br>
+exatamente uma palavra e pode substituir zero ou mais palavras. <br>
+
+Pode-se perceber que Q1 está interessado em todos os animais da cor laranja e Q2 quer tudo sobre as <br>
+outras duas características. Caso seja apresentada chaves que não sejam identificadas, essa mensagem <br>
+será descartada. <br>
+
+O código é bem parecido com o anterior, mudando apenas que as chaves de roteamento dos logs terão duas <br>
+palavras.
+
+![R](https://rabbitmq.com/img/tutorials/python-five.png) <br>
+
+
+
+
+**Uso:** <br>
+
+- Shell 1 (Para receber todos os logs) <br>
+-- ```python receive_logs_topic.py "#"``` <br>
+
+- Shell 2 (Para receber todos os logs da instalação " kern ") <br>
+-- ```python receive_logs_topic.py "kern. *"``` <br>
+
+- Shell 3 (Ou se você quiser ouvir apenas sobre registros " críticos ")<br>
+-- ```python receive_logs_topic.py "* .critical"``` <br>
+
+- Shell 4 (Você pode criar várias ligações) <br>
+-- ```python receive_logs_topic.py "kern. *"  "* .critical"``` <br>
+
+- Shell 5 (E para emitir um log com uma chave de roteamento do tipo " kern.critical ")<br>
+-- ```python emit_log_topic.py "kern.critical"  "Um erro crítico de kernel"``` <br>
+
+
 
 ### RPC
 
-TO-DO
+O sexto experimento traz consigo a ideia do RPC (Remote Procedure Call), que nada mais <br>
+é do que o processamento de tarefas dentro de um servidor, onde o mesmo retorna algum  <br>
+resultado para o cliente. <br>
+
+**Visão geral:**<br>
+
+Inicialmente é criado uma classe de cliente, onde existirá um método chamado *call*, que <br>
+envia uma solicitação RPC e fica bloqueado até que se receba uma resposta. <br>
+Dentro dessa comunicação, podemos criar uma fila de retorno de chamada para cada <br>
+solicitação RPC. Isso é ineficiente. Temos outra forma então, que é criar uma fila de <br>
+retorno de chamada para cada cliente. Utilizamos então a correlation_id. <br>
+
+![R](https://rabbitmq.com/img/tutorials/python-six.png) <br>
+
+* Na inicialização do cliente, ele cria a fila de retorno de chamada
+* No envio da mensagem, temos o *reply_to e correlation_id*
+* A solicitação é enviada para uma fila *rpc_queue*
+* O servidor aguarda alguma atividade na fila e retorna um resultado na fila do campo *reply_to*
+* O cliente aguarda o retorno e compara o valor da solicitação com o *correlation_id* <br>
+
+
+- Shell 1 (inicia o servidor) <br>
+-- ```python rpc_server.py``` <br>
+
+- Shell 2 (inicia o cliente) <br>
+-- ```python rpc_client.py``` <br>
+
 
 ### Publisher-confirms
 
