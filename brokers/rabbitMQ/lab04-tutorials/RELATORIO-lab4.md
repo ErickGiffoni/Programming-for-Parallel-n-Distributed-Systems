@@ -27,7 +27,7 @@ orientação de mensagens, enfileiramento e roteamento (point-to-point e publish
 Um breve esquema de funcionamento do **AMPQ**, análogo aos Correios,
 
 ![AMPQ](https://www.embarcados.com.br/wp-content/uploads/2018/08/amqp-structure.png)
-<h6>Disponível em [aqui](https://www.embarcados.com.br/amqp-protocolo-de-comunicacao-para-iot/)<h6> <br>
+<h6><p align="center"> Disponível em https://www.embarcados.com.br/amqp-protocolo-de-comunicacao-para-iot/ </p></h6><br>
    
 onde: <br>
 * Publisher: remetente
@@ -36,6 +36,7 @@ onde: <br>
 * Bindings: logística
 * Queue: caixa postal
 * Consumer: destinatário <br>
+
 Vale lembrar que os *publishers* nunca enviam mensagens diretas para as *queues*, haja vista que o <br>
 *exchange* é quem gerencia e encaminha as mensagens para determinada fila ou descarte, com base nas <br>
 no seu tipo e nas configurações do *bind*.
@@ -82,11 +83,56 @@ Já o *consumer*... TO-DO
 
 ### Work-queues
 
-TO-DO
+O segundo experimento simula uma fila de trabalho, onde temos um *producer* que <br>
+produz as mensagens, tal qual são encapsuladas e posteriormente enviadas para a <br>
+*queue*. A ideia principal é distribuir essas tarefas entre vários *consumers*, <br>
+para que elas sejam rapidamente consumidas e finalizadas. Vale lembrar que isso <br>
+depende da quantidade de *consumers* que estarão sendo executados, já que as    <br>
+tarefas serão compartilhadas entre eles. <br>
+
+**Visão geral:**<br>
+
+![PS](https://rabbitmq.com/img/tutorials/python-two.png) <br>
+
+Conforme apresentado na figura, o produtor (P) encapsula e envia as mensagens para <br>
+a fila, com base no *exchange* e nas configurações do *bind*. Essa fila (em vermelho), <br>
+por usa vez, é consumida pelos consumidores (C¹ e C²). <br>
+A fila de tarefas traz uma característica importante, que é a de escalar facilmente o <br>
+problema. Nesse caso, podemos paralelizar a realização das tarefas, criando vários <br>
+trabalhadores, e com isso escalando o problema. <br>
+Dentro do problema também foi inserido o *ack(nowledgement)*, que é um suporte de <br>
+confirmação de mensagens. A mensagem é recebida pelo consumidor, e caso ela tenha <br>
+sido executada sem nenhum problema, o consumidor enviará de volta um ack para que <br>
+o RabbitMQ possa destruir a tarefa. Isso evita que a tarefa não seja executada caso <br>
+um consumidor encerre e não tenha finalizado a tarefa. Caso o ack não seja recebido, <br>
+entende-se que a tarefa não foi executada. Isso é feito basicamente retirando o <br>
+sinalizador **auto_ack = true** e configurando corretamente a estrutura. <br>
+Já para garantir que as mensagens persistam e não se percam mesmo ao reiniciar o <br>
+servidor RabbitMQ, declaramos a fila como durável e também as mensagens como persistentes. <br>
+Também podemos definidr o *prefetch_count = 1* para que não haja sobrecarga na realização <br>
+das tarefas por parte dos consumidores. Com isso, o RabbitMQ não irá enviar mais de uma <br>
+tarefa por vez para um consumidor, ou seja, ele só receberá outra tarefa quando estiver livre. <br>
+
+**Uso:** <br>
+
+- Shell 1 <br>
+-- ```python worker.py```<br>
+
+- Shell 2 <br>
+-- ```python worker.py```<br>
+
+- Shell 3 <br>
+-- ```python new_task.py First message.``` <br>
+-- ```python new_task.py Second message..``` <br>
+-- ```python new_task.py Third message...``` <br>
+-- ```python new_task.py Fourth message....``` <br>
+-- ```python new_task.py Fifth message.....``` <br>
+
 
 ### Publish-subscribe
 
-TO-DO
+
+
 
 ### Routing
 
