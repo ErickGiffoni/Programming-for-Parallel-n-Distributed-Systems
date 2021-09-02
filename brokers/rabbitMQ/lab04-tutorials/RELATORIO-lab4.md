@@ -16,10 +16,31 @@ dos brokers, que funcionam como intermediários em conexões envolvendo módu
 cliente e servidor (ou produtor/consumidor), considerando a presença de um intermediário.<br>
 
 
-TO-DO: explicar **AMQP**
 
-O ***Advanced Message Queuing Protocol*** lero lero...<br>
+O ***Advanced Message Queuing Protocol*** é um protocolo avançado de enfileiramento de mensagens <br>
+presente no RabbitMQ. Esse protocolo se encontra dentro da camada de aplicação e é comumente <br> 
+utilizado em *Message Oriented Middleware (MOM)*. Muito utilizado em sistemas distribuídos na <br>
+transmissão de mensagens, o **AMPQ** "conecta sistemas, alimenta os processos de negócios com as <br>
+informações de que precisam e transmite de forma confiável as instruções que alcançam seus objetivos" [1]. <br>
+As principais características do **AMPQ** são: **seguranca, confiabilidade, interoperabilidade, <br>
+orientação de mensagens, enfileiramento e roteamento (point-to-point e publish-and-subscribe)**.<br>
+Um breve esquema de funcionamento do **AMPQ**, análogo aos Correios,
 
+![AMPQ](https://www.embarcados.com.br/wp-content/uploads/2018/08/amqp-structure.png)
+<h6>Disponível em [aqui](https://www.embarcados.com.br/amqp-protocolo-de-comunicacao-para-iot/)<h6> <br>
+   
+onde: <br>
+* Publisher: remetente
+* Exchange: caixa de correios
+* Broker: Correios
+* Bindings: logística
+* Queue: caixa postal
+* Consumer: destinatário <br>
+Vale lembrar que os *publishers* nunca enviam mensagens diretas para as *queues*, haja vista que o <br>
+*exchange* é quem gerencia e encaminha as mensagens para determinada fila ou descarte, com base nas <br>
+no seu tipo e nas configurações do *bind*.
+
+   
 ## Tutoriais realizados
 
 Na página do Rabbitmq na Internet, existe um conjunto de pequenos tutoriais<br>
