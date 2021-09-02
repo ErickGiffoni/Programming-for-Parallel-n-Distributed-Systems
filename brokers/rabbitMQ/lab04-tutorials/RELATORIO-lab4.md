@@ -162,7 +162,36 @@ filas existentes e são logo consumidas por C¹ e C². <br>
 
 ### Routing
 
-TO-DO
+O quarto experimento consiste no direcionamento de mensagens para filas específicas, com base na sua <br>
+categoria. <br>
+
+**Visão geral:**<br>
+
+Entramos com um novo conceito, que é a chave de ligação. Anteriormente, utilizamos o *fanout* <br>
+como um *exchange_type*. Isso não garante muitas possibilidades, já que a transmissão não tinha um direcionamento. <br>
+Agora a chave direta é uma opção mais formidável, haja vista que mensagens serão transmitidas para as filas com <br>
+base na chave de ligação, ou seja, o direcionamento das mensagens para as filas é feito quando a chave de ligação <br>
+corresponde exatamente à chave de roteamento da mensagem.<br>
+
+![R](https://rabbitmq.com/img/tutorials/direct-exchange.png) <br>
+
+A imagem acima ilustra bem a ideia supracitada, onde existe uma ligação direta, determinada pelas chaves de ligação <br>
+*orange, black e green*, onde, cada qual identifica a fila que deve receber os dados. Em tal configuração, uma mensagem <br>
+publicada na central com uma chave de roteamento *orange* será roteada para a fila Q1 . Mensagens com uma chave de <br>
+roteamento *black ou green* irão para Q2 . Todas as outras mensagens serão descartadas. <br>
+
+
+**Uso:** <br>
+
+- Shell 1 (caso queira salvar os logs em arquivos) <br>
+-- ```python receive_logs_direct.py warning error> logs_from_rabbit.log``` <br>
+
+- Shell 2 (caso queira ver os logs no terminal) <br>
+-- ```python receive_logs_direct.py info warning error``` <br>
+
+- Shell 3 (para criar os logs)<br>
+-- ```python emit_log_direct.py error "Run. Run. Or it will explode."``` <br>
+
 
 ### Topics
 
