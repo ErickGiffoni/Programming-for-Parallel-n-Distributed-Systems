@@ -92,7 +92,7 @@ tarefas serão compartilhadas entre eles. <br>
 
 **Visão geral:**<br>
 
-![PS](https://rabbitmq.com/img/tutorials/python-two.png) <br>
+![WQ](https://rabbitmq.com/img/tutorials/python-two.png) <br>
 
 Conforme apresentado na figura, o produtor (P) encapsula e envia as mensagens para <br>
 a fila, com base no *exchange* e nas configurações do *bind*. Essa fila (em vermelho), <br>
@@ -131,7 +131,33 @@ tarefa por vez para um consumidor, ou seja, ele só receberá outra tarefa quand
 
 ### Publish-subscribe
 
+O terceiro experimento consiste no envio de mensagens para vários consumidores diferentes. <br>
+Nesse caso a configuração do *exchange* foi definida com *fanout*, que basicamente faz com <br>
+todas as mensagens sejam transmitidas para todas as filas que conhece. <br>
 
+**Visão geral:**<br>
+
+Após a definição das características do *exchange*, é necessário que existam as filas para <br>
+que os logs sejam enfileirados. Para isso, ao invés de definir um nome específico para a fila, <br>
+podemos definir um argumento vazio para *queue_declare*, que garantirá que o sistema gerará um <br>
+nome aleatório para nossa fila. Em seguida um bind é adicionado ao programa para que o *exchange* <br>
+possa se relacionar com a *queue*, que chamados de ligação. <br>
+
+![PS](https://rabbitmq.com/img/tutorials/python-three-overall.png) <br>
+
+A imagem acima mostra como o sistema funciona. O produtor envia a mensagem, onde essa é recebida pelas <br>
+filas existentes e são logo consumidas por C¹ e C². <br>
+
+**Uso:** <br>
+
+- Shell 1 (caso queira salvar os logs em arquivos) <br>
+-- ```python receive_logs.py > logs_from_rabbit.log``` <br>
+
+- Shell 2 (caso queira ver os logs no terminal) <br>
+-- ```python receive_logs.py``` <br>
+
+- Shell 3 (para criar os logs)<br>
+-- ```python emit_log.py``` <br>
 
 
 ### Routing
