@@ -96,19 +96,19 @@ tarefas serão compartilhadas entre eles. <br>
 
 Conforme apresentado na figura, o produtor (P) encapsula e envia as mensagens para <br>
 a fila, com base no *exchange* e nas configurações do *bind*. Essa fila (em vermelho), <br>
-por usa vez, é consumida pelos consumidores (C¹ e C²). <br>
+por usa vez, é consumida pelos consumidores (C¹ e C²). <br><br>
 A fila de tarefas traz uma característica importante, que é a de escalar facilmente o <br>
 problema. Nesse caso, podemos paralelizar a realização das tarefas, criando vários <br>
-trabalhadores, e com isso escalando o problema. <br>
+trabalhadores, e com isso escalando o problema. <br><br>
 Dentro do problema também foi inserido o *ack(nowledgement)*, que é um suporte de <br>
 confirmação de mensagens. A mensagem é recebida pelo consumidor, e caso ela tenha <br>
 sido executada sem nenhum problema, o consumidor enviará de volta um ack para que <br>
 o RabbitMQ possa destruir a tarefa. Isso evita que a tarefa não seja executada caso <br>
 um consumidor encerre e não tenha finalizado a tarefa. Caso o ack não seja recebido, <br>
 entende-se que a tarefa não foi executada. Isso é feito basicamente retirando o <br>
-sinalizador **auto_ack = true** e configurando corretamente a estrutura. <br>
+sinalizador **auto_ack = true** e configurando corretamente a estrutura. <br><br>
 Já para garantir que as mensagens persistam e não se percam mesmo ao reiniciar o <br>
-servidor RabbitMQ, declaramos a fila como durável e também as mensagens como persistentes. <br>
+servidor RabbitMQ, declaramos a fila como durável e também as mensagens como persistentes. <br><br>
 Também podemos definidr o *prefetch_count = 1* para que não haja sobrecarga na realização <br>
 das tarefas por parte dos consumidores. Com isso, o RabbitMQ não irá enviar mais de uma <br>
 tarefa por vez para um consumidor, ou seja, ele só receberá outra tarefa quando estiver livre. <br>
