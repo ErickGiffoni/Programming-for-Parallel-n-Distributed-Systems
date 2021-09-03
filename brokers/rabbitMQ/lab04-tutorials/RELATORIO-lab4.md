@@ -74,7 +74,9 @@ Para o *producer*, o código é o [send.py](./hello-world/send.py). Nele uma con
 básica é feita com a mensagem "Hello World!", para a fila criada anteriormente,<br>
 identificando-a com o parâmetro ```routing_key='hello'```.<br>
 
-Já o *consumer*... TO-DO
+Já o *consumer*, o código é o [receive.py](). Ele também faz uma conexão em *localhost*<br>
+para a fila "hello". A diferença é que uma função de consumo básica é utilizada<br>
+com um *callback* que, ao receber a mensagem, simplesmente a imprime na tela.<br>
 
 **Uso:**<br>
 
