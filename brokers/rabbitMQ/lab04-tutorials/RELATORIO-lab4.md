@@ -78,6 +78,8 @@ Já o *consumer*... TO-DO
 
 **Uso:**<br>
 
+Entre na pasta ```hello-world```.<br>
+
 * Producer: ```python send.py```<br>
 * Consumer: ```python receive.py```<br>
 
@@ -115,6 +117,8 @@ tarefa por vez para um consumidor, ou seja, ele só receberá outra tarefa quand
 
 **Uso:** <br>
 
+Entre na pasta ```work-queues```.<br>
+
 - Shell 1 <br>
 -- ```python worker.py```<br>
 
@@ -150,6 +154,8 @@ filas existentes e são logo consumidas por C¹ e C². <br>
 
 **Uso:** <br>
 
+Entre na pasta ```publish-subscribe```.<br>
+
 - Shell 1 (caso queira salvar os logs em arquivos) <br>
 -- ```python receive_logs.py > logs_from_rabbit.log``` <br>
 
@@ -182,6 +188,8 @@ roteamento *black ou green* irão para Q2 . Todas as outras mensagens serão des
 
 
 **Uso:** <br>
+
+Entre na pasta ```routing_key```.<br>
 
 - Shell 1 (caso queira salvar os logs em arquivos) <br>
 -- ```python receive_logs_direct.py warning error> logs_from_rabbit.log``` <br>
@@ -222,6 +230,8 @@ palavras.
 
 **Uso:** <br>
 
+Entre na pasta ```topics```.<br>
+
 - Shell 1 (Para receber todos os logs) <br>
 -- ```python receive_logs_topic.py "#"``` <br>
 
@@ -261,6 +271,9 @@ retorno de chamada para cada cliente. Utilizamos então a correlation_id. <br>
 * O servidor aguarda alguma atividade na fila e retorna um resultado na fila do campo *reply_to*
 * O cliente aguarda o retorno e compara o valor da solicitação com o *correlation_id* <br>
 
+**Uso:**<br>
+
+Entre na pasta ```rpc```.<br>
 
 - Shell 1 (inicia o servidor) <br>
 -- ```python rpc_server.py``` <br>
