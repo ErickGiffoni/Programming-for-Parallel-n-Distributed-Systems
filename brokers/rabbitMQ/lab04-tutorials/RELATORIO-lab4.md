@@ -9,13 +9,12 @@ Programação para Sistemas Paralelos e Distribuídos<br>
 </p>
 
 
-TO-DO: contextualizar o objetivo do trabalho
-
 O objetivo desse experimento é que o aluno compreenda algumas funcionalidades <br>
 dos brokers, que funcionam como intermediários em conexões envolvendo módulos <br>
 cliente e servidor (ou produtor/consumidor), considerando a presença de um intermediário.<br>
 
-
+Para esse laboratório, utilizamos o software **Rabbitmq**, o qual é um *broker* que<br>
+implementa o **AMQ Protocol** (AMQP).<br>
 
 O ***Advanced Message Queuing Protocol*** é um protocolo avançado de enfileiramento de mensagens <br>
 presente no RabbitMQ. Esse protocolo se encontra dentro da camada de aplicação e é comumente <br> 
@@ -24,11 +23,14 @@ transmissão de mensagens, o **AMPQ** "conecta sistemas, alimenta os processos d
 informações de que precisam e transmite de forma confiável as instruções que alcançam seus objetivos" [1]. <br>
 As principais características do **AMPQ** são: **seguranca, confiabilidade, interoperabilidade, <br>
 orientação de mensagens, enfileiramento e roteamento (point-to-point e publish-and-subscribe)**.<br>
-Um breve esquema de funcionamento do **AMPQ**, análogo aos Correios,
+Um breve esquema de funcionamento do **AMPQ**, análogo aos Correios,<br>
 
-![AMPQ](https://www.embarcados.com.br/wp-content/uploads/2018/08/amqp-structure.png)
-<h6><p align="center"> Disponível em https://www.embarcados.com.br/amqp-protocolo-de-comunicacao-para-iot/ </p></h6><br>
-   
+
+<div style="text-align:center;">
+<img src="https://www.embarcados.com.br/wp-content/uploads/2018/08/amqp-structure.png" width=70% height=100% />
+<div align="center"> Disponível em https://www.embarcados.com.br/amqp-protocolo-de-comunicacao-para-iot/ </div>
+</div>
+
 onde: <br>
 * Publisher: remetente
 * Exchange: caixa de correios
@@ -38,8 +40,7 @@ onde: <br>
 * Consumer: destinatário <br>
 
 Vale lembrar que os *publishers* nunca enviam mensagens diretas para as *queues*, haja vista que o <br>
-*exchange* é quem gerencia e encaminha as mensagens para determinada fila ou descarte, com base nas <br>
-no seu tipo e nas configurações do *bind*.
+*exchange* é quem gerencia e encaminha as mensagens para determinada fila ou descarte, com base no seu tipo e nas configurações do *bind*.
 
    
 ## Tutoriais realizados
@@ -74,7 +75,7 @@ Para o *producer*, o código é o [send.py](./hello-world/send.py). Nele uma con
 básica é feita com a mensagem "Hello World!", para a fila criada anteriormente,<br>
 identificando-a com o parâmetro ```routing_key='hello'```.<br>
 
-Já o *consumer*, o código é o [receive.py](). Ele também faz uma conexão em *localhost*<br>
+Já o *consumer*, o código é o [receive.py](./hello-world/receive.py). Ele também faz uma conexão em *localhost*<br>
 para a fila "hello". A diferença é que uma função de consumo básica é utilizada<br>
 com um *callback* que, ao receber a mensagem, simplesmente a imprime na tela.<br>
 
