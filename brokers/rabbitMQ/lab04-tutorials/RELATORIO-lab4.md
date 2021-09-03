@@ -271,7 +271,53 @@ retorno de chamada para cada cliente. Utilizamos então a correlation_id. <br>
 
 ### Publisher-confirms
 
-TO-DO
+Para o sétimo e último experimento, só precisamos codificar o lado do *producer*,<br>
+que é um **publisher**. Isso porque a ideia do experimento é mostrar a possibilidade<br>
+de utilizar o *broker* Rabbitmq para enviar uma confirmação de recebimento de uma<br>
+mensagem.<br>
+
+**Visão geral:**<br>
+
+Funciona da seguinte maneira: o *broker* recebe a mensagem publicada pelo *publisher*<br>
+e manda de volta um reconhecimento, dizendo que a mensagem foi recebida. Dessa ma-<br>
+neira, quem publicou a mensagem entende que ela foi tratada no lado do servidor.<br>
+
+Há basicamente 3 formas de fazer isso acontecer:<br>
+
+- A primeira maneira é a publicação individual de mensagens, ou seja, para cada <br>
+mensagem enviada, espera-se o reconhecimento chegar para, então, prosseguir para<br>
+a próxima publicação;<br>
+
+- A segunda maneira é parecida com a anterior, porém utiliza-se *batches* ao invés<br>
+de mensagens individuais. Assim, envia-se um conjunto de dados por vez;<br>
+
+- A terceira maneira é assíncrona. Cada mensagem é publicada individualmente, porém<br>
+usa-se funções de *callback* para tratar de modo assíncrono a resposta devolvida<br>
+pelo *broker*.<br>
+
+Essas 3 formas estão implementadas em Java no programa `PublisherConfirms.java`.<br>
+A tabela a seguir apresenta prós e contras sobre as abordagens mencionadas:<br>
+
+| Abordagem | Prós | Contras |
+| :-------: | :--: | :-----: |
+| Publicação individual +<br>reconhecimento síncrono | é simples | taxa de transferência limitada |
+| Publicação em *batch* +<br>reconhecimento síncrono | <li>é simples<br><li>taxa de transferência razoável | difícil de entender e tratar quando<br>algum reconhecimento dá errado |
+| Modo assíncrono | <li>melhor desempenho e uso de recursos<br><li>bom controle de erro | pode ser difícil de entender e<br>implementar corretamente |
+
+**Uso:**<br>
+
+Entre na pasta `publisher-confirms`.<br>
+
+> Obs.: é necessário ter o Java pré-instalado<br>
+
+- 1\) Baixe as dependências do Rabbitmq para java<br>
+-- ```source get-jar-files.sh```<br>
+
+- 2\) Configure a variável de ambiente para apontar para as dependências baixadas<br>
+-- ```source set-env-var.sh```<br>
+
+- 3\) Compile e execute o programa `PublisherConfirms.java`<br>
+-- ```source compile-execute-java.sh```<br>
 
 ## Opinião geral
 
