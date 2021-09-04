@@ -19,11 +19,11 @@ implementa o **AMQ Protocol** (AMQP).<br>
 O ***Advanced Message Queuing Protocol*** é um protocolo avançado de enfileiramento de mensagens <br>
 presente no RabbitMQ. Esse protocolo se encontra dentro da camada de aplicação e é comumente <br> 
 utilizado em *Message Oriented Middleware (MOM)*. Muito utilizado em sistemas distribuídos na <br>
-transmissão de mensagens, o **AMPQ** "conecta sistemas, alimenta os processos de negócios com as <br>
+transmissão de mensagens, o **AMQP** "conecta sistemas, alimenta os processos de negócios com as <br>
 informações de que precisam e transmite de forma confiável as instruções que alcançam seus objetivos" [1]. <br>
-As principais características do **AMPQ** são: **seguranca, confiabilidade, interoperabilidade, <br>
+As principais características do **AMQP** são: **seguranca, confiabilidade, interoperabilidade, <br>
 orientação de mensagens, enfileiramento e roteamento (point-to-point e publish-and-subscribe)**.<br>
-Um breve esquema de funcionamento do **AMPQ**, análogo aos Correios,<br>
+Um breve esquema de funcionamento do **AMQP**, análogo aos Correios,<br>
 
 
 <div style="text-align:center;">
