@@ -18,6 +18,9 @@ por um broker, no modelo publish-subscriber. O cliente passa um vetor para o ser
 onde o servidor realiza as operações necessárias e retorna o valor esperado para o <br>
 cliente, de modo que ele possa imprimir o resultado para o usuário. <br>
 
+![image](https://github.com/ErickGiffoni/Programming-for-Parallel-n-Distributed-Systems/blob/1710cf1e909043c57fb9124e18a719e5ebd6df4a/brokers/rabbitMQ/lab03/photo5017050856255760786.jpg)
+
+
 A solução proposta era pra funcionar de acordo com a imagem acima, porém houveram <br>
 alguns contratempos. O fluxo funciona corretamente, porém não houve tempo hábil para <br>
 adaptação de acordo com os requisitos do problema. <br>
