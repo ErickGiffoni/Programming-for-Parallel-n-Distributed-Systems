@@ -35,8 +35,6 @@ def find_bs_n_callback(ch, method, props, body):
    print("[x] Recebi um pedido...");
 
    # divifir o trabalho p/ os workers
-   p_result: List = [];
-   correlation_id: List = [];
 
    def find_partial_result():
       find_p_bs_n_queue_name = "find_p_bs_n";   # find partial biggest and smallest number
@@ -124,4 +122,6 @@ channel.basic_consume(
 );
 
 print("[.] Esperando uma publicação...");
+p_result: List = [];
+correlation_id: List = [];
 channel.start_consuming();
